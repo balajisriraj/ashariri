@@ -1,0 +1,42 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: backend } }
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env: { POSTGRES_USER: ashariri, POSTGRES_PASSWORD: ashariri, POSTGRES_DB: ashariri }
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U ashariri" --health-interval 3s --health-retries 20
+    env:
+      ASHARIRI_TEST_POSTGRES_DSN: postgresql://ashariri:ashariri@localhost:5432/ashariri
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+        with: { python-version: "3.12" }
+      - run: uv sync --frozen --extra postgres
+      - run: uv run ruff check . && uv run ruff format --check .
+      - run: uv run pytest -q
+      # The full eval suite, offline: real embeddings, scripted model.
+      - name: Evals
+        run: uv run ashariri eval
+        env: { ASHARIRI_LLM: scripted, ASHARIRI_SQLITE_PATH: /tmp/evals.db }
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: frontend } }
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v5
+        with: { node-version: 22, cache: pnpm, cache-dependency-path: frontend/pnpm-lock.yaml }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - run: pnpm build

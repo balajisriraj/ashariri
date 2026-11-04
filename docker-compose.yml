@@ -1,0 +1,34 @@
+# Full stack: Postgres + pgvector, the agent API, and the web UI on http://localhost:8080
+#   cp .env.example .env   # add ANTHROPIC_API_KEY, or set ASHARIRI_LLM=scripted to run offline
+#   docker compose up --build
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: ashariri
+      POSTGRES_PASSWORD: ashariri
+      POSTGRES_DB: ashariri
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ashariri"]
+      interval: 3s
+      retries: 20
+
+  api:
+    build: ./backend
+    env_file: .env
+    environment:
+      ASHARIRI_STORE: postgres
+      ASHARIRI_POSTGRES_DSN: postgresql://ashariri:ashariri@db:5432/ashariri
+      ASHARIRI_CORS_ORIGINS: '["http://localhost:8080"]'
+    depends_on:
+      db: { condition: service_healthy }
+
+  web:
+    build: ./frontend
+    ports: ["8080:80"]
+    depends_on:
+      api: { condition: service_healthy }
+
+volumes:
+  pgdata:

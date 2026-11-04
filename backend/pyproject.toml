@@ -1,0 +1,45 @@
+[project]
+name = "ashariri"
+version = "0.1.0"
+description = "A personal digital twin: an agent that answers in Balaji's voice, grounded in what he has written and done."
+requires-python = ">=3.11"
+dependencies = [
+  "anthropic>=1.0",
+  "fastapi>=0.115",
+  "fastembed>=0.4",
+  "langgraph>=0.2",
+  "pydantic>=2.8",
+  "pydantic-settings>=2.4",
+  "pyyaml>=6.0",
+  "sqlite-vec>=0.1.6",
+  "sse-starlette>=2.1",
+  "uvicorn[standard]>=0.30",
+]
+
+[project.optional-dependencies]
+postgres = ["numpy>=1.26", "pgvector>=0.3", "psycopg[binary]>=3.2"]
+
+[project.scripts]
+ashariri = "ashariri.cli:main"
+
+[dependency-groups]
+dev = ["httpx>=0.27", "pytest>=8.3", "pytest-asyncio>=0.24", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ashariri"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["E501", "RUF001", "RUF002", "RUF003"]
