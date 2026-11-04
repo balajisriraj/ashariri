@@ -4,7 +4,7 @@
 
 Ashariri is an agent, not a chatbot with a long prompt. Each question goes through a LangGraph state machine. The graph routes the question, recalls what this visitor has told it, runs a hybrid search over my writing and case studies, and streams a cited draft. A review step then checks the draft against hard rules and an LLM judge, and sends it back for revision if it fails. Every step streams to the UI, so you can watch the agent work.
 
-https://github.com/user-attachments/assets/915ae584-a73b-4b6d-9e0f-62a9b1360f4a
+<!-- The film: drag promo/out/ashariri-promo-web.mp4 onto this line in the GitHub editor, replacing this note. -->
 
 <sub>▶ The film, with sound (1 min 47 s). <a href="#the-film">How it was made</a>.</sub>
 
