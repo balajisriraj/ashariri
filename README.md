@@ -6,7 +6,17 @@ Ashariri is an agent, not a chatbot with a long prompt. Each question goes throu
 
 <!-- The film: drag promo/out/ashariri-promo-web.mp4 onto this line in the GitHub editor, replacing this note. -->
 
+
+
+https://github.com/user-attachments/assets/307e793a-f145-42b9-88cc-c0fbe7c9f0fc
+
+
+
+
 <sub>▶ The film, with sound (1 min 47 s). <a href="#the-film">How it was made</a>.</sub>
+
+
+
 
 ## What it shows
 
