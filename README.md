@@ -144,14 +144,15 @@ Ashariri is being built step by step into a full digital twin: one that knows wh
 | | |
 |---|---|
 | **Built** | Grounded answers in my voice, self-review before every reply, memory with consent, voice in and out, evals in CI |
-| **Next** | Stays current on its own: new posts, talks and notes are ingested as I publish them |
-| | Learns from correction: every answer I fix becomes an eval case, so the same mistake cannot come back |
-| | Long-term memory that visitors can carry across sessions, still visible and erasable |
-| **Later** | Speaks in my own voice, with a lifelike avatar, for calls and video |
-| | Acts for me through tools: books time on my calendar, shares the right case study, drafts replies to messages, each one waiting for my approval |
-| | Works alongside me: briefs me before meetings and keeps a running picture of what I'm working on |
+| **Next: learn from everything I've said** | Imports what I have actually said, from my own accounts only: social media posts and comments, text and chat messages, emails, voice notes and talk transcripts |
+| | A privacy pass before anything is learned: sensitive things are found and removed (other people's names and numbers, private conversations, internal work names, anything I flag), and I review what stays |
+| | Then it trains on the cleaned data: not just facts, but how I phrase things, what I believe and how I reply to different people |
+| | Stays current on its own as I post, write and speak, and learns from correction: every answer I fix becomes an eval case |
+| **Later: act for me** | Speaks in my own voice, with a lifelike avatar, for calls and video |
+| | Handles my day through tools: schedules meetings against my calendar, answers "can you make a movie on Friday?" from my calendar and my preferences, replies to messages and shares the right case study |
+| | Starts with my approval on every action. As it earns trust, routine ones run on their own within limits I set |
 
-The rule that will not change: the twin only says what I have actually said or done, and it never acts without my say-so.
+The rules that will not change: the twin only says what I have actually said or done, sensitive things never get past the privacy pass, and it never acts outside the limits I set.
 
 ## Tests and evals
 
