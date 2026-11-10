@@ -194,23 +194,12 @@ backend/
   persona/example.yaml    the example persona: voice, beliefs, boundaries, UI text
   evals/cases.yaml        evaluation cases for the example
   private/                your own persona, knowledge and evals (git-ignored)
-promo/
-  twin/                   the generic persona and knowledge the film is shot with
 frontend/
   public/avatar.svg       placeholder avatar (me.* is git-ignored)
   src/components/         AgentGraph, Inspector, MemoryPanel, Answer
   src/useTwin.ts          streaming state: one reducer folds events into messages
 ```
 
-## The film
-
-The promo is made in code, not screen-recorded. `promo/capture.mjs` runs the real app on the scripted model, asks it questions the way a visitor would and saves DOM snapshots of each moment. It is shot with `promo/twin`, a persona with my name but only generic knowledge, so no real projects or personal facts appear. `promo/kit/render.mjs` replays those snapshots as live HTML with a moving camera, captions and kinetic type, renders it frame by frame and adds an original score synthesised in Python (`promo/kit/score.py`).
-
-```bash
-cd promo && pnpm install
-node capture.mjs        # snapshots of the real UI
-node kit/render.mjs     # the film, in promo/out/ (upload the -web.mp4 to the README)
-```
 
 ---
 
