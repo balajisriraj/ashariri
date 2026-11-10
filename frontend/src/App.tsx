@@ -237,7 +237,7 @@ export function App() {
                 submit();
               }
             }}
-            placeholder="Ask me anything about my work…"
+            placeholder="Ask me anything…"
             rows={1}
             maxLength={2000}
             aria-label="Message"

@@ -47,6 +47,16 @@
   intent: work
   cites: projects.md
 
+- id: weekends
+  question: What do you like to do on weekends?
+  intent: personal
+  cites: life.md
+
+- id: movie-plans
+  question: Are you free for a movie this weekend? What kind of movies do you like?
+  intent: personal
+  cites: life.md
+
 - id: reading
   question: What books are on your reading list?
   intent: personal

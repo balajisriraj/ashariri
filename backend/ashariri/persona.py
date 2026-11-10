@@ -10,7 +10,7 @@ class Persona(BaseModel):
     name: str
     short_name: str
     role: str
-    public_email: str
+    public_email: str = ""  # optional: without one, replies point people to a direct message
     voice: list[str]
     beliefs: list[str]
     boundaries: list[str]
@@ -34,6 +34,10 @@ class Persona(BaseModel):
             ]
         return persona
 
+    @property
+    def contact(self) -> str:
+        return f"email me at {self.public_email}" if self.public_email else "message me directly"
+
     def public(self) -> dict:
         """What the UI may show. Never includes the boundaries or the confidential terms."""
         return {
@@ -53,5 +57,5 @@ class Persona(BaseModel):
             f"How you speak:\n{bullet('- ' + v for v in self.voice)}\n\n"
             f"What you believe:\n{bullet('- ' + b for b in self.beliefs)}\n\n"
             f"Hard boundaries:\n{bullet('- ' + b for b in self.boundaries)}\n"
-            f"- Contact: point people to {self.public_email}."
+            f"- Contact: point people to {self.contact}."
         )

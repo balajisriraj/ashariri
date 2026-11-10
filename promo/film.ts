@@ -17,26 +17,26 @@ const { word, ui, run, BEAT } = makeFilm({
 });
 const C = { x: 960, y: 540 };
 
-// The hook: what's broken.
-word(4, big("A résumé is one page.", "s"), "dark");
-word(4, big("It can't answer a follow-up.", "s"), "dark");
-word(6, `${big("And recruiters always have one.", "s")}${sub("How did you build it? Why that way? What would you do differently?")}`, "light");
-word(4, big(`What if your work could ${grad("answer back?")}`, "s"), "dark");
-// The product.
-word(6, `${logo}${big("Ashariri")}${sub("A digital twin that answers in my voice, grounded in what I've actually written and built.")}`, "dark", { mark: "reveal", hit: true });
+// The hook: you can't be everywhere, and everyone has a question.
+word(4, big("You can't be everywhere.", "s"), "dark");
+word(7, `${big("But people still want you.", "s")}${sub("Friends with plans. Family with news. Strangers with questions. Recruiters with follow-ups.")}`, "light");
+word(4, big(`What if your voice could ${grad("answer for you?")}`, "s"), "dark");
+// The product, and its name.
+word(6, `${logo}${big("Ashariri")}${sub("A digital twin that answers in my voice, grounded only in what I've actually said.")}`, "dark", { mark: "reveal", hit: true });
+word(7, `${eyebrow("The name")}${big("A voice without a body.", "s")}${sub("From the Sanskrit aśarīrin, 'bodiless'. In Tamil, asariri is the voice from the sky, with no one there.")}`, "dark");
 ui(6, { snap: "welcome", cam: [0.7, C, 0.78, C] });
 
 // 1. Ask.
-word(4, `${eyebrow("01 · Ask")}${big("Ask it anything.", "m")}${sub("The work, the teams, the ideas. In plain words.")}`, "dark");
-const Q1 = "Tell me about the self-healing document intelligence product.";
+word(4, `${eyebrow("01 · Ask")}${big("Ask it anything.", "m")}${sub("Plans, ideas, life, work. In plain words.")}`, "dark");
+const Q1 = "Are you free for a movie on Friday?";
 ui(12, {
   snap: [[0, "welcome"], ...stream("ask", 3.2, 0.3)],
   type: { sel: ".composer textarea", text: Q1, from: 0.5, to: 2.6, until: 3.2 },
   cursor: { path: [[0, { x: 1300, y: 900 }], [2.7, ".composer .send"], [3.4, ".composer .send"], [4.4, { x: 1500, y: 700 }]], click: [2.9] },
   cam: [1.4, ".composer", 1.3, ".msg.user"],
-  caption: ["Ask", "A real question, a streamed answer"],
+  caption: ["Ask", "A friend's question, a streamed answer"],
 });
-ui(8, { snap: "ask-done", cam: [1.4, ".msg.twin .bubble", 1.55, ".msg.twin .bubble"], ring: [{ sel: ".msg.twin .cite", from: 1.6 }], caption: ["Grounded", "Every claim cites where it came from"] });
+ui(8, { snap: "ask-done", cam: [1.4, ".msg.twin .bubble", 1.55, ".msg.twin .bubble"], ring: [{ sel: ".msg.twin .cite", from: 1.6 }], caption: ["Honest", "It won't say yes for me, and it cites why"] });
 
 // 2. Sources.
 ui(8, {
@@ -75,7 +75,8 @@ ui(3, { snap: "light", cam: [0.82, C, 0.86, C] });
 
 // The angles: how it's built, and who it's for.
 word(8, `${eyebrow("Under the hood")}${big("A real agent, not a long prompt.", "s")}${chips("LangGraph", "Hybrid search", "LLM judge", "SSE streaming", "Evals in CI", "pgvector")}`, "light");
-word(7, `${big("For recruiters, a conversation.", "s")}${sub("For engineers, a reference build of an agent you can trust.")}`, "dark");
+word(7, `${big("For friends and family, a quick answer.", "s")}${sub("For strangers and recruiters, a real conversation. For engineers, an agent you can trust.")}`, "dark");
+word(8, `${eyebrow("Coming next")}${big(`Learns from what I've said. ${grad("Then acts for me.")}`, "s")}${sub("Posts, messages and talks, with sensitive things removed first. Then calendars and plans, with my approval.")}`, "light");
 word(8, `${logo}${big(grad("Ashariri"))}${sub("Ask me anything · by Balaji Sri Raj")}`, "dark", { mark: "outro" });
 
 run((m) => ({ teaser: [m.reveal, m.reveal + 36 * BEAT], poster: [m.hero + 6 * BEAT, 0] }));

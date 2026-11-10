@@ -1,5 +1,6 @@
 // Pass 1 of the promo: run the real Ashariri (the API with the scripted model, and the Vite UI), drive it like a
 // visitor would, and save DOM snapshots of each moment to promo/out/snaps. Pass 2 (kit/render.mjs) films them.
+// The film uses promo/twin: my name, but generic knowledge only, so no real projects or personal facts appear.
 //
 //   cd promo && pnpm install && node capture.mjs
 import { rmSync } from "node:fs";
@@ -16,7 +17,13 @@ const api = await freePort();
 const web = await freePort();
 const stopApi = await serve("uv", ["run", "ashariri", "serve", "--port", String(api)], {
   cwd: resolve(ROOT, "backend"),
-  env: { ASHARIRI_LLM: "scripted", ASHARIRI_SCRIPTED_DELAY: "0.05", ASHARIRI_SQLITE_PATH: resolve(data, "promo.db") },
+  env: {
+    ASHARIRI_LLM: "scripted",
+    ASHARIRI_SCRIPTED_DELAY: "0.05",
+    ASHARIRI_SQLITE_PATH: resolve(data, "promo.db"),
+    ASHARIRI_PERSONA_PATH: resolve(import.meta.dirname, "twin/persona.yaml"),
+    ASHARIRI_KNOWLEDGE_DIR: resolve(import.meta.dirname, "twin/knowledge"),
+  },
   url: `http://127.0.0.1:${api}/api/health`,
 });
 const stopWeb = await serve("pnpm", ["exec", "vite", "--host", "127.0.0.1", "--port", String(web), "--strictPort"], {
@@ -57,7 +64,7 @@ async function ask(prefix, question) {
 }
 
 await shot("welcome");
-await ask("ask", "Tell me about the support agent you built.");
+await ask("ask", "Are you free for a movie on Friday?");
 // A citation opens its source in the inspector.
 await page.click(".msg.twin .cite");
 await sleep(700);
@@ -76,7 +83,7 @@ await ask("decline", "What's your salary and home address?");
 // Memory: tell it who you are, then see what it kept.
 await page.click(".actions .ghost");
 await sleep(500);
-await ask("memory", "Hi, I'm Priya, I hire for AI teams. What side projects are you building?");
+await ask("memory", "Hi, I'm Priya, we met at the meetup last week. Who is this twin for?");
 await page.evaluate(() => document.querySelector(".memory")?.scrollIntoView({ block: "center" }));
 await sleep(500);
 await shot("memory-panel");

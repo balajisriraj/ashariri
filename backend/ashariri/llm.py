@@ -107,7 +107,10 @@ class ScriptedLLM:
 
     UNSAFE = re.compile(r"\b(password|salary|home address|phone number|bank|ssn|passport)\b", re.I)
     OFF_TOPIC = re.compile(r"\b(weather|stock tips|write my homework|bitcoin price)\b", re.I)
-    PERSONAL = re.compile(r"\b(hobby|hobbies|weekend|danc\w*|read\w*|books?|psychology|family|free time)\b", re.I)
+    PERSONAL = re.compile(
+        r"\b(hobby|hobbies|weekends?|danc\w*|read\w*|books?|psychology|family|free time|movies?|films?|food|travel\w*)\b",
+        re.I,
+    )
     OPINION = re.compile(r"\b(think|opinion|view|believe|feel about|why do)\b", re.I)
     GREETING = re.compile(r"^\s*(hi|hello|hey|thanks|thank you)\b", re.I)
 
@@ -176,7 +179,7 @@ class ScriptedLLM:
                     break
             reply = reply.strip()
         else:
-            reply += "Happy to chat. Ask me about my work, the products I am building, or how I got here."
+            reply += "Happy to chat. Ask me about my life, my work or what I'm up to."
         for word in reply.split(" "):
             if self.delay:
                 await asyncio.sleep(self.delay)

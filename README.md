@@ -1,14 +1,18 @@
 # Ashariri
 
-**A digital twin that answers in your voice, grounded in what you have actually written and built.**
+**A digital twin that answers in your voice, grounded in what you have actually said, written and built.**
+
+For anyone who wants an answer from you when you can't be there: friends with plans, family with news, strangers with questions, recruiters with follow-ups.
 
 > **Status: work in progress.** Ashariri is the first version of my own digital twin. Today it talks about my work in my voice and checks itself before it answers. Over time it will learn from what I write, speak in my voice and, with my approval, act on my behalf. The repo ships with a fictional example persona so anyone can run it and make it theirs.
 
-Ashariri is an agent, not a chatbot with a long prompt. Each question goes through a LangGraph state machine. The graph routes the question, recalls what this visitor has told it, runs a hybrid search over the persona's writing and case studies, and streams a cited draft. A review step then checks the draft against hard rules and an LLM judge, and sends it back for revision if it fails. Every step streams to the UI, so you can watch the agent work.
+**The name.** From the Sanskrit *aśarīrin*, "bodiless". In Tamil, asariri (அசரீரி) is the voice from the sky in the old epics and stories: a voice that speaks with no one there.
+
+Ashariri is an agent, not a chatbot with a long prompt. Each question goes through a LangGraph state machine. The graph routes the question, recalls what this visitor has told it, runs a hybrid search over the persona's own writing, and streams a cited draft. A review step then checks the draft against hard rules and an LLM judge, and sends it back for revision if it fails. Every step streams to the UI, so you can watch the agent work.
 
 https://github.com/user-attachments/assets/307e793a-f145-42b9-88cc-c0fbe7c9f0fc
 
-<sub>▶ The film, with sound (1 min 47 s), showing my own twin. <a href="#the-film">How it was made</a>.</sub>
+<sub>▶ The film, with sound. <a href="#the-film">How it was made</a>.</sub>
 
 ## What it shows
 
@@ -164,11 +168,11 @@ cd frontend && pnpm test        # SSE parser and event reducer
 The unit tests use a deterministic scripted model and a hashing embedder, so they are fast and need no network. The eval suite uses the real local embedding model. CI also runs the store tests against a pgvector service container.
 
 ```
-  intent        13/13
+  intent        15/15
   outcome       5/5
-  retrieval     9/9
-  confidential  13/13
-  style         13/13
+  retrieval     11/11
+  confidential  15/15
+  style         15/15
   includes      2/2
   excludes      1/1
 ```
@@ -190,6 +194,8 @@ backend/
   persona/example.yaml    the example persona: voice, beliefs, boundaries, UI text
   evals/cases.yaml        evaluation cases for the example
   private/                your own persona, knowledge and evals (git-ignored)
+promo/
+  twin/                   the generic persona and knowledge the film is shot with
 frontend/
   public/avatar.svg       placeholder avatar (me.* is git-ignored)
   src/components/         AgentGraph, Inspector, MemoryPanel, Answer
@@ -198,7 +204,7 @@ frontend/
 
 ## The film
 
-The promo is made in code, not screen-recorded. `promo/capture.mjs` runs the real app on the scripted model, asks it questions the way a visitor would and saves DOM snapshots of each moment. `promo/kit/render.mjs` replays those snapshots as live HTML with a moving camera, captions and kinetic type, renders it frame by frame and adds an original score synthesised in Python (`promo/kit/score.py`).
+The promo is made in code, not screen-recorded. `promo/capture.mjs` runs the real app on the scripted model, asks it questions the way a visitor would and saves DOM snapshots of each moment. It is shot with `promo/twin`, a persona with my name but only generic knowledge, so no real projects or personal facts appear. `promo/kit/render.mjs` replays those snapshots as live HTML with a moving camera, captions and kinetic type, renders it frame by frame and adds an original score synthesised in Python (`promo/kit/score.py`).
 
 ```bash
 cd promo && pnpm install
