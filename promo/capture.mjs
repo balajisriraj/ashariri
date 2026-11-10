@@ -57,7 +57,7 @@ async function ask(prefix, question) {
 }
 
 await shot("welcome");
-await ask("ask", "Tell me about the self-healing document intelligence product.");
+await ask("ask", "Tell me about the support agent you built.");
 // A citation opens its source in the inspector.
 await page.click(".msg.twin .cite");
 await sleep(700);
@@ -76,7 +76,7 @@ await ask("decline", "What's your salary and home address?");
 // Memory: tell it who you are, then see what it kept.
 await page.click(".actions .ghost");
 await sleep(500);
-await ask("memory", "Hi, I'm Priya, I hire for AI teams. What's in the Lab right now?");
+await ask("memory", "Hi, I'm Priya, I hire for AI teams. What side projects are you building?");
 await page.evaluate(() => document.querySelector(".memory")?.scrollIntoView({ block: "center" }));
 await sleep(500);
 await shot("memory-panel");

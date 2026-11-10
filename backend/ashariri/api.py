@@ -65,6 +65,10 @@ def create_app(settings: Settings | None = None, service: Service | None = None)
             "passages": s.store.count_chunks(),
         }
 
+    @app.get("/api/persona")
+    async def persona(request: Request) -> dict:
+        return svc(request).persona.public()
+
     @app.get("/api/sources")
     async def sources(request: Request) -> list[dict]:
         return svc(request).store.sources()

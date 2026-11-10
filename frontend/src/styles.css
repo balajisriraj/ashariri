@@ -1,4 +1,4 @@
-/* Tokens match balajisriraj.com so the twin feels like part of the same product. */
+/* Design tokens: a dark, Apple-like palette with a light theme below. */
 :root {
   --bg: #050507; --s1: #0c0c10; --s2: #141419; --s3: #1b1b21;
   --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14); --line-3: rgba(255, 255, 255, .24);

@@ -19,11 +19,19 @@ def _events(body: str) -> list[dict]:
 def test_health_and_sources(client):
     health = client.get("/api/health").json()
     assert health["status"] == "ok" and health["passages"] > 0
-    assert any(s["source"] == "lab.md" for s in client.get("/api/sources").json())
+    assert any(s["source"] == "projects.md" for s in client.get("/api/sources").json())
+
+
+def test_persona_is_public_only(client):
+    persona = client.get("/api/persona").json()
+    assert persona["short_name"] and persona["suggestions"]
+    assert "confidential_terms" not in persona and "boundaries" not in persona
 
 
 def test_chat_streams_sse_events(client):
-    res = client.post("/api/chat", json={"message": "What is the Lab?", "session_id": "api-session-1"})
+    res = client.post(
+        "/api/chat", json={"message": "What side projects are you building?", "session_id": "api-session-1"}
+    )
     assert res.status_code == 200
     assert res.headers["content-type"].startswith("text/event-stream")
     events = _events(res.text)

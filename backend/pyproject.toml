@@ -1,7 +1,7 @@
 [project]
 name = "ashariri"
 version = "0.1.0"
-description = "A personal digital twin: an agent that answers in Balaji's voice, grounded in what he has written and done."
+description = "A personal digital twin: an agent that answers in your voice, grounded in what you have written and done."
 requires-python = ">=3.11"
 dependencies = [
   "anthropic>=1.0",

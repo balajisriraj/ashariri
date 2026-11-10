@@ -10,3 +10,5 @@ dist/
 *.tsbuildinfo
 .DS_Store
 backend/persona/confidential.local.yaml
+backend/private/
+frontend/public/me.*

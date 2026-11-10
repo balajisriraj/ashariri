@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Placeholder avatar">
+  <!-- A neutral placeholder. Replace it: put your own image in frontend/public (me.* is git-ignored)
+       and set `avatar` in your persona file. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5b8cff"/>
+      <stop offset="1" stop-color="#b36bff"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="64" fill="url(#bg)"/>
+  <circle cx="64" cy="50" r="22" fill="#fff" fill-opacity="0.9"/>
+  <path d="M24 108c6-22 22-34 40-34s34 12 40 34a64 64 0 0 1-80 0z" fill="#fff" fill-opacity="0.9"/>
+</svg>

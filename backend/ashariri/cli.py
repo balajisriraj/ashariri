@@ -26,7 +26,7 @@ def _chat(args: argparse.Namespace) -> None:
     service = Service.from_settings(get_settings())
     service.ensure_ingested()
     session, history = uuid.uuid4().hex, []
-    print("Ask Balaji's twin anything. Ctrl-D to quit.\n")
+    print(f"Ask {service.persona.short_name}'s twin anything. Ctrl-D to quit.\n")
 
     async def turn(question: str) -> str:
         answer = ""
@@ -63,7 +63,7 @@ def _eval(args: argparse.Namespace) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(prog="ashariri", description="Balaji's digital twin.")
+    parser = argparse.ArgumentParser(prog="ashariri", description="A personal digital twin.")
     commands = parser.add_subparsers(required=True)
 
     commands.add_parser("ingest", help="index the knowledge folder").set_defaults(run=_ingest)

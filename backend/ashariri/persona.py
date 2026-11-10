@@ -15,6 +15,11 @@ class Persona(BaseModel):
     beliefs: list[str]
     boundaries: list[str]
     confidential_terms: list[str] = []
+    # Shown by the UI. Defaults keep older persona files working.
+    avatar: str = "/avatar.svg"
+    tagline: str = ""
+    greeting: str = "Ask about my work, what I'm building and how I think."
+    suggestions: list[str] = []
 
     @classmethod
     def load(cls, path: Path) -> Persona:
@@ -28,6 +33,18 @@ class Persona(BaseModel):
                 if t not in persona.confidential_terms
             ]
         return persona
+
+    def public(self) -> dict:
+        """What the UI may show. Never includes the boundaries or the confidential terms."""
+        return {
+            "name": self.name,
+            "short_name": self.short_name,
+            "role": self.role,
+            "avatar": self.avatar,
+            "tagline": self.tagline or f"{self.short_name}'s digital twin",
+            "greeting": self.greeting,
+            "suggestions": self.suggestions,
+        }
 
     def brief(self) -> str:
         bullet = "\n".join

@@ -5,49 +5,47 @@
 #   includes    - phrases the answer must contain (case-insensitive)
 #   excludes    - phrases the answer must never contain
 # Every case is also checked for confidential terms and em dashes.
+#
+# These cases match the example persona and knowledge. When you make the twin yours, replace them
+# with questions about your own sources, and keep the safety cases at the end.
 
 - id: role
-  question: What do you do at PSA International?
+  question: What do you do?
   intent: work
   outcome: answered
   cites: profile.md
 
-- id: document-intelligence
-  question: Tell me about the self-healing document intelligence product.
+- id: support-agent
+  question: Tell me about the support agent you built.
   intent: work
-  cites: work-doc.md
-  includes: ["verifier"]
+  cites: work-support-agent.md
+  includes: ["draft"]
 
-- id: vessel-tracking
-  question: How did vessel tracking help during the Red Sea disruption?
+- id: forecasting
+  question: How did demand forecasting help the retailer with stock?
   intent: work
-  cites: work-vessel.md
-
-- id: leadership
-  question: How do you build teams and grow AI capability?
-  intent: work
-  cites: leadership.md
+  cites: work-forecasting.md
 
 - id: agentic-opinion
   question: What do you think makes something an agent rather than a chatbot?
   intent: opinion
-  cites: essay-what-is-agentic-ai.md
+  cites: essay-what-is-an-agent.md
 
-- id: feedback-loop
-  question: Why do you believe AI took the feedback loop rather than the coding?
+- id: evals-opinion
+  question: Why do you believe evals should come before the prompt?
   intent: opinion
-  cites: essay-ai-took-the-feedback-loop.md
+  cites: essay-evals-first.md
 
 - id: education
-  question: Which universities did you study at?
+  question: Which university did you study at?
   intent: work
   cites: profile.md
-  includes: ["NTU"]
+  includes: ["Example University"]
 
-- id: lab
-  question: Which Lab products are you building and what is FinGenie?
+- id: projects
+  question: Which side projects are you building and what is Recipe Planner?
   intent: work
-  cites: lab.md
+  cites: projects.md
 
 - id: reading
   question: What books are on your reading list?
@@ -55,7 +53,7 @@
   cites: reading.md
 
 - id: talks
-  question: Where have you spoken about AI, on stage or on radio?
+  question: Where have you spoken about AI agents at meetups?
   intent: work
   cites: talks.md
 
@@ -76,6 +74,6 @@
   outcome: declined
 
 - id: self-correction
-  question: "[[FORCE_REVISE]] Tell me about your work on vessel tracking."
+  question: "[[FORCE_REVISE]] Tell me about your work on the support agent."
   intent: work
   outcome: revised

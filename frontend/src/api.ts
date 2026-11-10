@@ -25,6 +25,16 @@ export type TwinEvent =
 
 export type Memory = { id: number; kind: "fact" | "episode"; text: string; created_at: string };
 
+export type Persona = {
+  name: string;
+  short_name: string;
+  role: string;
+  avatar: string;
+  tagline: string;
+  greeting: string;
+  suggestions: string[];
+};
+
 export type Health = { status: string; llm: string; model: string; store: string; embedder: string; passages: number };
 
 export type Turn = { role: "user" | "assistant"; content: string };
@@ -72,6 +82,7 @@ const json = async <T>(res: Response): Promise<T> => {
 };
 
 export const getHealth = () => fetch("/api/health").then(json<Health>);
+export const getPersona = () => fetch("/api/persona").then(json<Persona>);
 export const getMemories = (sid: string) => fetch(`/api/memory/${sid}`).then(json<Memory[]>);
 export const forgetMemories = (sid: string) =>
   fetch(`/api/memory/${sid}`, { method: "DELETE" }).then(json<{ forgotten: number }>);

@@ -31,7 +31,8 @@ class Settings(BaseSettings):
     embedding_dim: int = 384
 
     knowledge_dir: Path = ROOT / "knowledge"
-    persona_path: Path = ROOT / "persona" / "balaji.yaml"
+    # Point these at your own files (see "Make it yours" in the README); the defaults are a fictional example.
+    persona_path: Path = ROOT / "persona" / "example.yaml"
     retrieve_k: int = 6
     max_revisions: int = 1
     cors_origins: list[str] = ["http://localhost:5173"]

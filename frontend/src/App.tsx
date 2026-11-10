@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { forgetMemories, getHealth, getMemories, type Health, type Memory } from "./api";
+import { forgetMemories, getHealth, getMemories, getPersona, type Health, type Memory, type Persona } from "./api";
 import { Answer } from "./components/Answer";
 import { Icon } from "./components/Icon";
 import { Inspector } from "./components/Inspector";
@@ -7,14 +7,16 @@ import { MemoryPanel } from "./components/MemoryPanel";
 import { sessionId, useTwin } from "./useTwin";
 import { useVoice } from "./useVoice";
 
-const SUGGESTIONS = [
-  "What do you actually do as a forward deployment engineer?",
-  "Tell me about the self-healing document intelligence product.",
-  "What makes something an agent rather than a chatbot?",
-  "How do you build teams around AI?",
-  "What's in the Lab right now?",
-  "What are you reading?",
-];
+// Shown until the API answers, and if a persona file has no suggestions of its own.
+const FALLBACK: Persona = {
+  name: "",
+  short_name: "",
+  role: "",
+  avatar: "/avatar.svg",
+  tagline: "Digital twin",
+  greeting: "Ask about my work, what I'm building and how I think.",
+  suggestions: ["What do you do?", "What are you building right now?", "What are you reading?"],
+};
 
 type Tab = "chat" | "agent" | "memory";
 
@@ -27,6 +29,7 @@ export function App() {
   const [speakReplies, setSpeakReplies] = useState(false);
   const [memories, setMemories] = useState<Memory[]>([]);
   const [health, setHealth] = useState<Health | null>(null);
+  const [persona, setPersona] = useState<Persona>(FALLBACK);
   const [offline, setOffline] = useState(false);
   const [draft, setDraft] = useState("");
   const [highlight, setHighlight] = useState<number | null>(null);
@@ -49,6 +52,12 @@ export function App() {
     getHealth()
       .then((h) => (setHealth(h), setOffline(false)))
       .catch(() => setOffline(true));
+    getPersona()
+      .then((p) => {
+        setPersona({ ...p, suggestions: p.suggestions.length ? p.suggestions : FALLBACK.suggestions });
+        document.title = `Ashariri · ${p.tagline}`;
+      })
+      .catch(() => {});
     refreshMemory();
   }, [refreshMemory]);
 
@@ -92,15 +101,16 @@ export function App() {
   };
 
   const inspected = messages.find((m) => m.id === selected);
+  const who = persona.short_name || "the persona";
 
   return (
     <div className={`app tab-${tab}`}>
       <header className="top">
         <div className="brand">
-          <img src="/avatar.webp" alt="" width="34" height="34" />
+          <img src={persona.avatar} alt="" width="34" height="34" />
           <div>
             <b>Ashariri</b>
-            <span>Balaji's digital twin</span>
+            <span>{persona.tagline}</span>
           </div>
         </div>
         <nav className="tabs" aria-label="Panels">
@@ -134,8 +144,8 @@ export function App() {
         <section className="about">
           <h3>What this is</h3>
           <p>
-            An agent that answers as Balaji, grounded in what he has written and built. Every reply is routed, retrieved,
-            drafted, then reviewed against his boundaries before you see it.
+            An agent that answers as {who}, grounded in their own writing and work. Every reply is routed,
+            retrieved, drafted, then reviewed against the persona's boundaries before you see it.
           </p>
           <ul className="facts">
             <li>
@@ -164,13 +174,13 @@ export function App() {
         <div className="thread" ref={thread} aria-live="polite">
           {messages.length === 0 ? (
             <div className="welcome">
-              <img src="/avatar.webp" alt="Balaji's Memoji" width="112" height="112" />
+              <img src={persona.avatar} alt={`${who}'s avatar`} width="112" height="112" />
               <h1>
-                Hi, I'm <span className="grad">Balaji's twin.</span>
+                Hi, I'm <span className="grad">{persona.short_name ? `${persona.short_name}'s twin.` : "a digital twin."}</span>
               </h1>
-              <p>Ask about my work, how I lead teams, what I think about agentic AI, or what I'm building now.</p>
+              <p>{persona.greeting}</p>
               <div className="suggest">
-                {SUGGESTIONS.map((s) => (
+                {persona.suggestions.map((s) => (
                   <button key={s} onClick={() => send(s)}>
                     {s}
                   </button>
@@ -189,7 +199,7 @@ export function App() {
                   className={`msg twin ${selected === m.id ? "sel" : ""} ${m.error ? "err" : ""}`}
                   onClick={() => setSelected(m.id)}
                 >
-                  <img src="/avatar.webp" alt="" width="28" height="28" />
+                  <img src={persona.avatar} alt="" width="28" height="28" />
                   <div className="bubble">
                     {m.text ? (
                       <Answer text={m.text} onCite={(n) => cite(m.id, n)} />
@@ -264,7 +274,7 @@ export function App() {
             </button>
           )}
         </form>
-        <p className="disclaimer">Grounded in Balaji's public writing and work. It can still be wrong.</p>
+        <p className="disclaimer">Grounded in {who}'s own writing and work. It can still be wrong.</p>
       </main>
 
       <aside className="right">

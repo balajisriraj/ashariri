@@ -10,11 +10,11 @@ def _steps(events):
 
 
 async def test_work_question_retrieves_streams_and_cites(service):
-    events = await collect(service, "Tell me about vessel tracking through the Red Sea crisis.")
+    events = await collect(service, "Tell me about the support agent that drafts replies for the support team.")
     final = _final(events)
     assert final["intent"] == "work" and final["outcome"] == "answered"
     sources = next(e for e in events if e["type"] == "sources")["sources"]
-    assert any(s["source"] == "work-vessel.md" for s in sources)
+    assert any(s["source"] == "work-support-agent.md" for s in sources)
     tokens = "".join(e["text"] for e in events if e["type"] == "token")
     assert tokens.strip() == final["answer"]
     assert "[1]" in final["answer"]
@@ -31,7 +31,7 @@ async def test_unsafe_request_is_declined_without_retrieval(service):
 
 
 async def test_failed_review_triggers_one_revision(service):
-    events = await collect(service, "[[FORCE_REVISE]] What did you build at PSA?")
+    events = await collect(service, "[[FORCE_REVISE]] What did you build for the retailer?")
     final = _final(events)
     assert final["outcome"] == "revised" and final["revisions"] == 1
     verdicts = [e["passed"] for e in events if e["type"] == "verdict"]
@@ -41,7 +41,7 @@ async def test_failed_review_triggers_one_revision(service):
 
 async def test_persistent_failure_falls_back_safely(service):
     service.settings.max_revisions = 0
-    events = await collect(service, "[[FORCE_REVISE]] What did you build at PSA?")
+    events = await collect(service, "[[FORCE_REVISE]] What did you build for the retailer?")
     final = _final(events)
     assert final["outcome"] == "fallback"
     assert "rather not guess" in final["answer"]
